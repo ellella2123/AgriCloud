@@ -1,31 +1,36 @@
 import React, { useState } from 'react';
-import './App.css';
 
 function App() {
   const [city, setCity] = useState('');
   const [report, setReport] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const getAgriData = async () => {
-    // This calls the "api" folder we created
-    const response = await fetch(`/api/message?city=${city}`);
-    const data = await response.json();
-    setReport(data);
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/message?city=${city}`);
+      if (!response.ok) throw new Error('API not responding');
+      const data = await response.json();
+      setReport(data);
+    } catch (err) {
+      alert("Error: " + err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div style={{ padding: '50px', backgroundColor: '#f0fdf4', minHeight: '100vh' }}>
-      <h1>🌱 AgriCloud Smart Dashboard</h1>
-      <input 
-        placeholder="Enter your City..." 
-        onChange={(e) => setCity(e.target.value)} 
-      />
-      <button onClick={getAgriData}>Get Farming Advice</button>
+    <div style={{ padding: '50px', textAlign: 'center' }}>
+      <h1>🌱 AgriCloud Portal</h1>
+      <input onChange={(e) => setCity(e.target.value)} placeholder="City name..." />
+      <button onClick={getAgriData} disabled={loading}>
+        {loading ? "Searching..." : "Get Advice"}
+      </button>
 
       {report && (
-        <div style={{ marginTop: '20px', border: '1px solid green', padding: '20px' }}>
-          <h3>Report for {report.city}</h3>
-          <p>Temperature: {Math.round(report.temp - 273.15)}°C</p>
-          <p><strong>Action: {report.advice}</strong></p>
+        <div style={{ marginTop: '20px', border: '1px solid green', padding: '10px' }}>
+          <h2>{report.city}</h2>
+          <p>Advice: {report.advice}</p>
         </div>
       )}
     </div>
