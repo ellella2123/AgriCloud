@@ -13,9 +13,9 @@ def message(req: func.HttpRequest) -> func.HttpResponse:
         return func.HttpResponse("Please enter a city", status_code=400)
 
     # Use a real key if you have one, otherwise this is a "Demo" response
-    api_key = "b2b8945ab53a56945813d94fa379ed13" 
+    api_key = "0cc2a1c22ca3df1da723be56ee801470" 
     
-    if api_key == "b2b8945ab53a56945813d94fa379ed13":
+    if api_key == "0cc2a1c22ca3df1da723be56ee801470":
         # This part runs if you haven't put a real key in yet
         return func.HttpResponse(
             json.dumps({
