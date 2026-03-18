@@ -17,7 +17,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10' # We updated this to match your system
+          python-version: '3.11' # We updated this to match your system
 
       - name: Build And Deploy
         id: builddeploy
